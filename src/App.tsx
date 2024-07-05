@@ -10,11 +10,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/register-employer' element={<Home />} />
+          <Route path='/register' element={<Home />} />
+          <Route path='/login-employer' element={<Home />} />
+          <Route path='/login' element={<Home />} />
           {/* <Route/>
       <Route/> */}
         </Routes>
       </BrowserRouter>
-      <h1>React App</h1>
     </>
   )
 }

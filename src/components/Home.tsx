@@ -1,9 +1,9 @@
 import React from 'react'
-import Navbar from './ui/Navbar'
+import { StickyNavbar } from './ui/Navbar'
 
 function Home() {
     return (<>
-        <Navbar />
+        <StickyNavbar />
         <div>Home</div>
     </>
     )
