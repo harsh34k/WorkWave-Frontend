@@ -75,7 +75,7 @@ export function StickyNavbar() {
                 </Button>
             </Link>
             <Link to="/register">
-                <Button variant="gradient" size="md" className="hidden lg:inline-block">
+                <Button color="blue" variant="gradient" size="md" className="hidden lg:inline-block">
                     <span className="text-base">Sign in</span>
                 </Button>
             </Link>
@@ -132,7 +132,7 @@ export function StickyNavbar() {
                 </Link>
                 <hr className="my-3" />
                 <Link to="/register">
-                    <Button variant="gradient" size="lg" className="">
+                    <Button color="blue" variant="gradient" size="lg" className="">
                         <span>Sign in</span>
                     </Button>
                 </Link>
