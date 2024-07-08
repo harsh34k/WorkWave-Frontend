@@ -27,8 +27,8 @@ export const useApplicantActions = () => {
 
     const loginApplicant = useMutation((data: { email: string; fullName: string; password: string }) => loginApplicantAPI(data.email, data.password, data.fullName), {
         onSuccess: (data) => {
-            setAccessToken(data.accessToken);
-            setCurrentApplicant(data.user);
+            setAccessToken(data.data.accessToken);
+            setCurrentApplicant(data.data.user);
             queryClient.invalidateQueries('currentApplicant');
         },
     });
@@ -50,6 +50,7 @@ export const useApplicantActions = () => {
     const changeApplicantPassword = useMutation((data: { oldPassword: string; newPassword: string }) => changeCurrentPasswordAPI(data.oldPassword, data.newPassword));
 
     const getCurrentApplicant = useQuery<Applicant>('currentApplicant', getCurrentApplicantAPI, {
+        enabled: false,
         onSuccess: (data) => setCurrentApplicant(data),
     });
 
@@ -67,7 +68,7 @@ export const useApplicantActions = () => {
         },
     });
 
-    const getAllAppliedJobs = useQuery<Job[]>('appliedJobs', getAllAppliedJobsAPI, { staleTime: 5000 });
+    const getAllAppliedJobs = useQuery<Job[]>('appliedJobs', getAllAppliedJobsAPI, { enabled: false, staleTime: 5000 });
 
     return {
         registerApplicant,

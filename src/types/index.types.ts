@@ -67,3 +67,10 @@ export interface JobFilters {
     salary?: Salary;
     education?: string;
 }
+
+export interface ApiResponse {
+    statusCode: number;
+    data: any;
+    message: string;
+    succcess: boolean
+}

@@ -27,8 +27,8 @@ export const useEmployerActions = () => {
 
     const loginEmployer = useMutation((data: { email: string; password: string, fullName: string }) => loginEmployerAPI(data.email, data.password, data.fullName), {
         onSuccess: (data) => {
-            setAccessToken(data.accessToken);
-            setCurrentEmployer(data.user);
+            setAccessToken(data.data.accessToken);
+            setCurrentEmployer(data.data.user);
             queryClient.invalidateQueries('currentEmployer');
         },
     });
@@ -50,6 +50,7 @@ export const useEmployerActions = () => {
     const changeCurrentPassword = useMutation((data: { oldPassword: string; newPassword: string }) => changeCurrentPasswordAPI(data.oldPassword, data.newPassword));
 
     const getCurrentEmployer = useQuery<Employer>('currentEmployer', getCurrentEmployerAPI, {
+        enabled: false,
         onSuccess: (data) => setCurrentEmployer(data),
     });
 
@@ -65,7 +66,13 @@ export const useEmployerActions = () => {
         },
     });
 
-    const getAllCreatedJobs = useQuery<Job[]>('createdJobs', getAllCreatedJobsAPI);
+    const getAllCreatedJobs = useQuery<Job[]>('createdJobs', getAllCreatedJobsAPI, {
+        enabled: false,
+        onSuccess: () => {
+
+            queryClient.invalidateQueries('createdJobs');
+        }
+    });
 
     return {
         registerEmployer,

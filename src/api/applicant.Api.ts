@@ -1,18 +1,20 @@
 import axios from 'axios';
-import { Applicant, Job } from '../types/index.types';
+import { ApiResponse, Applicant, Job } from '../types/index.types';
 import { LoginResponse } from './employer.Api';
 
-const API_BASE_URL = 'http://localhost:5000/api/v1'; // Replace with your backend API base URL
+const API_BASE_URL = 'http://localhost:8000/api/v1'; // Replace with your backend API base URL
 
 // Function to register a new applicant
-export const registerApplicantAPI = async (formData: FormData): Promise<Applicant> => {
+export const registerApplicantAPI = async (formData: FormData): Promise<ApiResponse> => {
 
     const response = await axios.post(`${API_BASE_URL}/applicants/register`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
-    return response.data.data;
+    console.log("respnse hai from applicant", response);
+
+    return response.data;
 
 };
 
@@ -20,7 +22,7 @@ export const registerApplicantAPI = async (formData: FormData): Promise<Applican
 export const loginApplicantAPI = async (email: string, password: string, fullName: string): Promise<LoginResponse> => {
 
     const response = await axios.post(`${API_BASE_URL}/applicants/login`, { email, password, fullName });
-    return response.data.data;
+    return response.data;
 
 };
 

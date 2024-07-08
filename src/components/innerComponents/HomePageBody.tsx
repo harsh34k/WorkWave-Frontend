@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { PiWaves } from 'react-icons/pi'
 import WaveAnimationComponent from '../ui/WaveAnimation'
-import "../css/waveAnimation.css"
 import { SearchBox } from './Search';
 import JobCategories from './jobComponent';
 function HomePageBody() {
