@@ -4,6 +4,7 @@ import { StickyNavbar } from './ui/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { useApplicantActions } from '../hooks/useApplicantsAction';
 import { useApplicantStore } from '../stores/useApplicantStore';
+import axios from 'axios';
 
 const LoginFormApplicant: React.FC = () => {
     const navigate = useNavigate();
@@ -30,7 +31,11 @@ const LoginFormApplicant: React.FC = () => {
         try {
             const { email, password, fullName } = formValues;
             const response = await loginApplicant.mutateAsync({ email, password, fullName });
-            // console.log("response ", response);
+            // const response = await axios.post(`http://localhost:8000/api/v1/applicants/login`, { email, password, fullName });
+            // console.log("response after changes", response);
+            navigate("/")
+
+            console.log("response ", response);
 
 
             // Assuming successful login returns necessary data
@@ -52,7 +57,7 @@ const LoginFormApplicant: React.FC = () => {
 
     return (
         <>
-            <StickyNavbar />
+            {/* <StickyNavbar /> */}
             <div className="bg-gray-50 min-h-screen flex flex-col items-center justify-center" style={{ backgroundImage: `url('https://tailwindcss.com/_next/static/media/docs-dark@tinypng.1bbe175e.png')` }}>
                 <div className="w-full max-w-5xl mx-auto p-6">
                     <Card className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6 p-6">

@@ -10,6 +10,7 @@ import {
     filterJobAPI
 } from '../api/job.Api';
 import { Job, JobFilters } from '../types/index.types';
+import { AxiosResponse } from 'axios';
 
 export const useJobActions = () => {
     const queryClient = useQueryClient();
@@ -22,10 +23,14 @@ export const useJobActions = () => {
     });
 
     // Get all jobs
-    const getAllJobs = useQuery<Job[]>('jobs', getAllJobsAPI);
+    const getAllJobs = useQuery<AxiosResponse>('jobs', getAllJobsAPI, {
+        enabled: false
+    });
 
     // Get job by ID
-    const getJobById = (jobId: string) => useQuery<Job>(['job', jobId], () => getJobByIdAPI(jobId));
+    const getJobById = (jobId: string) => useQuery<AxiosResponse>(['job', jobId], () => getJobByIdAPI(jobId), {
+        enabled: false
+    });
 
     // Update job
     const updateJob = useMutation(({ jobId, formData }: { jobId: string, formData: FormData }) => updateJobAPI(jobId, formData), {

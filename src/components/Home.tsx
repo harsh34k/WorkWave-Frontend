@@ -10,7 +10,7 @@ function Home() {
             backgroundImage: `url('https://tailwindcss.com/_next/static/media/docs-dark@tinypng.1bbe175e.png')`,
         }}>
 
-            <StickyNavbar />
+            {/* <StickyNavbar /> */}
             <HomePageBody />
             <div className='flex justify-center items-center  '>
                 <JobCategories />

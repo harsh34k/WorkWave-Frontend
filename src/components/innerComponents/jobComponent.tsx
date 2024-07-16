@@ -208,3 +208,118 @@ const JobCategories: React.FC = () => {
 export default JobCategories;
 
 
+// import React, { useState } from 'react';
+// import { useEmployerStore } from '../../stores/useEmployerStore';
+// import { useApplicantStore } from '../../stores/useApplicantStore';
+// import {
+//     Button,
+//     Dialog,
+//     DialogHeader,
+//     DialogBody,
+//     DialogFooter,
+//     Input,
+//     Textarea,
+//     Typography,
+//     Card,
+//     IconButton
+// } from '@material-tailwind/react';
+// import { XMarkIcon } from '@heroicons/react/24/solid';
+
+
+// interface JobCardProps {
+//     job: {
+//         title: string;
+//         company: string;
+//         rating: number;
+//         experience: string;
+//         salary: string;
+//         workMode: string;
+//         skills: string[];
+//         posted: string;
+//     };
+// }
+
+// const JobCardComponent: React.FC<JobCardProps> = ({ job }) => {
+//     const { currentEmployer } = useEmployerStore();
+//     const { currentApplicant } = useApplicantStore();
+//     const currentUser = currentEmployer || currentApplicant;
+
+//     const [open, setOpen] = useState(false);
+//     const [coverLetter, setCoverLetter] = useState('');
+//     const [resume, setResume] = useState<File | null>(null);
+
+//     const userType = currentEmployer ? 'employer' : currentApplicant ? 'applicant' : null;
+
+//     const handleApplyClick = () => {
+//         setOpen(true);
+//     };
+
+//     const handleClose = () => {
+//         setOpen(false);
+//     };
+
+//     const handleResumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//         if (event.target.files) {
+//             setResume(event.target.files[0]);
+//         }
+//     };
+
+//     return (
+//         <div className='flex flex-col sm:flex-row justify-between items-center p-6 rounded-lg shadow-lg bg-white'>
+//             <div className='flex-1'>
+//                 <h3 className="text-2xl font-bold">{job.title}</h3>
+//                 <p className="text-gray-700">{job.company} • {job.rating} ★ </p>
+//                 <p className="text-gray-700">{job.experience} • {job.salary} • {job.workMode}</p>
+//                 <p className="text-gray-700">Skills: {job.skills.join(', ')}</p>
+//                 <p className="text-gray-500">{job.posted}</p>
+//             </div>
+//             {userType === 'applicant' && (
+//                 <div className='mt-4 sm:mt-0'>
+//                     <Button color="blue" variant="gradient" size="md" onClick={handleApplyClick}>
+//                         <span className="text-base">Apply</span>
+//                     </Button>
+//                 </div>
+//             )}
+//             <Dialog open={open} handler={handleClose} className="fixed inset-0 flex items-center justify-center p-4 bg-opacity-50 backdrop-filter backdrop-blur-sm">
+//                 <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md">
+//                     <DialogHeader className="flex items-center justify-between p-4 border-b border-gray-200">
+//                         <Typography variant="h5">Apply for {job.title}</Typography>
+//                         <IconButton variant="text" size="sm" onClick={handleClose}>
+//                             <XMarkIcon className="h-5 w-5 text-gray-700" />
+//                         </IconButton>
+//                     </DialogHeader>
+//                     <DialogBody divider className="p-4">
+//                         <Card className="space-y-4 p-4">
+//                             <Typography className="mb-1 font-bold">Apply</Typography>
+//                             <Typography className="mb-2 text-gray-500 text-sm">Submit your application for this job</Typography>
+//                             <form className="space-y-4">
+//                                 <Textarea
+//                                     label="Cover Letter"
+//                                     value={coverLetter}
+//                                     onChange={(e) => setCoverLetter(e.target.value)}
+//                                     maxLength={150}
+//                                     className="w-full"
+//                                     required
+//                                 />
+//                                 <Input
+//                                     crossOrigin={""}
+//                                     type="file"
+//                                     label="Upload Resume"
+//                                     accept=".pdf,.doc,.docx"
+//                                     onChange={handleResumeChange}
+//                                     className="w-full"
+//                                     required
+//                                 />
+//                                 <Button color="blue" variant="gradient" size="md" fullWidth onClick={handleClose}>
+//                                     <span className="text-base">Apply</span>
+//                                 </Button>
+//                             </form>
+//                         </Card>
+//                     </DialogBody>
+//                 </div>
+//             </Dialog>
+//         </div>
+//     );
+// };
+
+// export default JobCardComponent;

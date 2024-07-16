@@ -21,7 +21,9 @@ export const registerApplicantAPI = async (formData: FormData): Promise<ApiRespo
 // Function to login an applicant
 export const loginApplicantAPI = async (email: string, password: string, fullName: string): Promise<LoginResponse> => {
 
-    const response = await axios.post(`${API_BASE_URL}/applicants/login`, { email, password, fullName });
+    const response = await axios.post(`${API_BASE_URL}/applicants/login`, { email, password, fullName }, {
+        withCredentials: true
+    });
     return response.data;
 
 };
@@ -29,7 +31,20 @@ export const loginApplicantAPI = async (email: string, password: string, fullNam
 // Function to logout an applicant
 export const logoutApplicantAPI = async (): Promise<void> => {
 
-    await axios.post(`${API_BASE_URL}/applicants/logout`);
+    console.log("reaching logout page");
+    try {
+
+        const response = await axios.post(`${API_BASE_URL}/applicants/logout`, {}, {
+            withCredentials: true
+        })
+        console.log("ressponse from logout", response);
+
+        return response.data;
+
+    } catch (error) {
+        console.log("error", error);
+
+    }
 
 };
 
@@ -49,8 +64,17 @@ export const changeCurrentPasswordAPI = async (oldPassword: string, newPassword:
 // Function to fetch current applicant details
 export const getCurrentApplicantAPI = async (): Promise<Applicant> => {
 
-    const response = await axios.get(`${API_BASE_URL}/applicants/current-user`);
-    return response.data.data;
+    try {
+        const response = await axios.get(`${API_BASE_URL}/applicants/current-user`, {
+            withCredentials: true
+        });
+        console.log("response hai", response);
+
+        return response.data;
+    } catch (error) {
+        console.log("error", error);
+        throw error
+    }
 
 };
 

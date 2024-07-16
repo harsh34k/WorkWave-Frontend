@@ -23,8 +23,17 @@ export enum Salary {
     ABOVE_15_LAKHS,
 }
 
+export enum Education {
+    TENTH,
+    TWELFTH,
+    GRADUATION,
+    POSTGRADUATION,
+    PHD
+
+}
 
 export type Job = {
+    data(arg0: string, data: any): unknown;
     id: string;
     title: string;
     description: string;
@@ -32,8 +41,7 @@ export type Job = {
     workMode: WorkMode;
     experience: Experience;
     salary: Salary;
-    duration: string;
-    education: string;
+    education: Education;
     employerId: string;
 };
 
@@ -52,6 +60,7 @@ export type Employer = {
     password: string;
     fullName: string;
     companyName: string;
+    createdJobs: Job[];
     jobTitle: string;
     avatarUrl?: string;
     refreshToken?: string;

@@ -39,12 +39,16 @@ const RegistrationForm: React.FC = () => {
 
         const formData = new FormData();
         Object.entries(formValues).forEach(([key, value]) => {
+            console.log("form Vaues from registration", formValues);
+
             formData.append(key, value);
         });
 
         if (profileImage) {
             formData.append('avatarUrl', profileImage); // Key name should be 'avatarUrl' to match backend
         }
+        console.log("formData from Registration DAta hai", formData);
+
 
         const response = registerEmployer.mutateAsync(formData, {
             onSuccess: (data) => {
@@ -77,7 +81,7 @@ const RegistrationForm: React.FC = () => {
 
     return (
         <>
-            <StickyNavbar />
+            {/* <StickyNavbar /> */}
             <div className="bg-gray-50 min-h-screen flex flex-col items-center justify-center"
                 style={{ backgroundImage: `url('https://tailwindcss.com/_next/static/media/docs-dark@tinypng.1bbe175e.png')` }}>
                 <div className="w-full max-w-5xl mx-auto p-6">

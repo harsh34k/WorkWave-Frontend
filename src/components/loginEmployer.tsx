@@ -4,6 +4,7 @@ import { StickyNavbar } from './ui/Navbar';
 import { useEmployerActions } from '../hooks/useEmployerActions';
 import { useEmployerStore } from '../stores/useEmployerStore';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 
@@ -33,12 +34,16 @@ const LoginForm: React.FC = () => {
             const { email, password, fullName } = formValues;
             const response = await loginEmployer.mutateAsync({ email, password, fullName });
             console.log("response hai bhai from login", response);
+            // const response = await axios.post(`http://localhost:8000/api/v1/employers/login`, { email, password, fullName });
+            // console.log("response after changes", response);
 
 
             // Assuming successful login returns necessary data
             if (response?.data?.accessToken) {
                 // Handle success, set tokens or user context
                 //set current user to this user
+                console.log("response.data from loginEmployer", response.data);
+
                 setAccessToken(response.data.accessToken);
                 setCurrentEmployer(response.data.user);
                 setMessage('Login successful!');
@@ -56,7 +61,7 @@ const LoginForm: React.FC = () => {
 
     return (
         <>
-            <StickyNavbar />
+            {/* <StickyNavbar /> */}
             <div className="bg-gray-50 min-h-screen flex flex-col items-center justify-center" style={{ backgroundImage: `url('https://tailwindcss.com/_next/static/media/docs-dark@tinypng.1bbe175e.png')` }}>
                 <div className="w-full max-w-5xl mx-auto p-6">
                     <Card className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6 p-6">

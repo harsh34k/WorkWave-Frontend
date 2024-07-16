@@ -27,6 +27,8 @@ export const useEmployerActions = () => {
 
     const loginEmployer = useMutation((data: { email: string; password: string, fullName: string }) => loginEmployerAPI(data.email, data.password, data.fullName), {
         onSuccess: (data) => {
+            console.log("data", data);
+
             setAccessToken(data.data.accessToken);
             setCurrentEmployer(data.data.user);
             queryClient.invalidateQueries('currentEmployer');
@@ -35,6 +37,8 @@ export const useEmployerActions = () => {
 
     const logoutEmployer = useMutation(logoutEmployerAPI, {
         onSuccess: () => {
+            console.log("reaching logutemployer useEmployerActions");
+
             setAccessToken(null);
             setCurrentEmployer(null);
             queryClient.invalidateQueries('currentEmployer');
@@ -51,7 +55,12 @@ export const useEmployerActions = () => {
 
     const getCurrentEmployer = useQuery<Employer>('currentEmployer', getCurrentEmployerAPI, {
         enabled: false,
-        onSuccess: (data) => setCurrentEmployer(data),
+
+        onSuccess: (data) => {
+            console.log("bhai yha to aa rha hu");
+
+            setCurrentEmployer(data)
+        }
     });
 
     const updateEmployerAccountDetails = useMutation(updateEmployerAccountDetailsAPI, {

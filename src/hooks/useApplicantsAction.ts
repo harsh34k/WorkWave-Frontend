@@ -27,6 +27,8 @@ export const useApplicantActions = () => {
 
     const loginApplicant = useMutation((data: { email: string; fullName: string; password: string }) => loginApplicantAPI(data.email, data.password, data.fullName), {
         onSuccess: (data) => {
+            console.log("loginSuccesfull", data);
+
             setAccessToken(data.data.accessToken);
             setCurrentApplicant(data.data.user);
             queryClient.invalidateQueries('currentApplicant');

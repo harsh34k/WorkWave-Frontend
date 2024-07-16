@@ -62,7 +62,7 @@ const RegistrationFormApplicant: React.FC = () => {
 
     return (
         <>
-            <StickyNavbar />
+            {/* <StickyNavbar /> */}
             <div className="bg-gray-50 min-h-screen flex flex-col items-center justify-center" style={{ backgroundImage: `url('https://tailwindcss.com/_next/static/media/docs-dark@tinypng.1bbe175e.png')` }}>
                 <div className="w-full max-w-5xl mx-auto p-6">
                     <Card className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6 p-6">
@@ -132,3 +132,6 @@ const RegistrationFormApplicant: React.FC = () => {
 };
 
 export default RegistrationFormApplicant;
+
+
+

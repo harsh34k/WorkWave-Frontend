@@ -31,13 +31,30 @@ export const registerEmployerAPI = async (formData: FormData): Promise<ApiRespon
 
 // Login Employer
 export const loginEmployerAPI = async (email: string, password: string, fullName: string): Promise<LoginResponse> => {
-    const response = await axios.post(`${API_BASE_URL}/login`, { email, password, fullName });
+    const response = await axios.post(`${API_BASE_URL}/login`, { email, password, fullName }, {
+        withCredentials: true
+    });
     return response.data;
 };
 
 // Logout Employer
 export const logoutEmployerAPI = async (): Promise<void> => {
-    await axios.post(`${API_BASE_URL}/logout`);
+    console.log("reaching logout page");
+    try {
+
+        const response = await axios.post(`${API_BASE_URL}/logout`, {}, {
+            withCredentials: true
+        })
+        console.log("ressponse from logout", response);
+
+        return response.data;
+
+    } catch (error) {
+        console.log("error", error);
+
+    }
+
+    // await axios.post(`${API_BASE_URL}/logout`);
 };
 
 // Refresh Access Token
@@ -53,8 +70,19 @@ export const changeCurrentPasswordAPI = async (oldPassword: string, newPassword:
 
 // Get Current Employer
 export const getCurrentEmployerAPI = async (): Promise<Employer> => {
-    const response = await axios.get(`${API_BASE_URL}/current-user`);
-    return response.data;
+    try {
+        console.log("at least here");
+
+        const response = await axios.get(`${API_BASE_URL}/current-user`, {
+            withCredentials: true
+        });
+        console.log("response getCurrentEmployerAPI hai", response);
+
+        return response.data;
+    } catch (error) {
+        console.log("error getCurrentEmployerAPI", error);
+        throw error
+    }
 };
 
 // Update Account Details
