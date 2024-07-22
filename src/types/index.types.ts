@@ -1,12 +1,18 @@
 // src/types/index.ts
 
 export enum WorkMode {
-    ONSITE,
-    REMOTE,
-    HYBRID,
+    ONSITE = "ONSITE",
+    REMOTE = "REMOTE",
+    HYBRID = "HYBRID",
 }
 
 export enum Experience {
+    // FRESHER = "FRESHER",
+    // ONE_TO_TWO_YEARS = "ONE_TO_TWO_YEARS",
+    // TWO_TO_THREE_YEARS = "TWO_TO_THREE_YEARS",
+    // THREE_TO_FOUR_YEARS = "THREE_TO_FOUR_YEARS",
+    // FOUR_TO_FIVE_YEARS = "FOUR_TO_FIVE_YEARS",
+    // ABOVE_FIVE_YEARS = "ABOVE_FIVE_YEARS",
     FRESHER,
     ONE_TO_TWO_YEARS,
     TWO_TO_THREE_YEARS,
@@ -16,19 +22,19 @@ export enum Experience {
 }
 
 export enum Salary {
-    BELOW_3_LAKHS,
-    FROM_3_TO_6_LAKHS,
-    FROM_6_TO_10_LAKHS,
-    FROM_10_TO_15_LAKHS,
-    ABOVE_15_LAKHS,
+    BELOW_3_LAKHS = 'BELOW_3_LAKHS',
+    FROM_3_TO_6_LAKHS = 'FROM_3_TO_6_LAKHS',
+    FROM_6_TO_10_LAKHS = 'FROM_6_TO_10_LAKHS',
+    FROM_10_TO_15_LAKHS = 'FROM_10_TO_15_LAKHS',
+    ABOVE_15_LAKHS = 'ABOVE_15_LAKHS'
 }
 
 export enum Education {
-    TENTH,
-    TWELFTH,
-    GRADUATION,
-    POSTGRADUATION,
-    PHD
+    TENTH = "TENTH",
+    TWELFTH = "TWELFTH",
+    GRADUATION = "GRADUATION",
+    POSTGRADUATION = "POSTGRADUATION",
+    PHD = "PHD"
 
 }
 
@@ -43,6 +49,7 @@ export type Job = {
     salary: Salary;
     education: Education;
     employerId: string;
+    applications: Application[]
 };
 
 export type Applicant = {
@@ -65,6 +72,16 @@ export type Employer = {
     avatarUrl?: string;
     refreshToken?: string;
 };
+
+export interface Application {
+    id: string;
+    jobId: string;
+    coverLetter: string;
+    resumeUrl: string;
+    job: Job;
+    applicant: Applicant
+    applicantId: string
+}
 
 
 export interface JobFilters {

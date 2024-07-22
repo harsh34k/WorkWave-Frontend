@@ -58,15 +58,17 @@ export const useApplicantActions = () => {
 
 
     const updateApplicantAccountDetails = useMutation((data: { fullName: string, email: string }) => updateApplicantAccountDetailsAPI(data.fullName, data.email), {
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries('currentApplicant');
+            setCurrentApplicant(data.data)
         },
     });
 
 
     const updateApplicantAvatar = useMutation(updateApplicantAvatarAPI, {
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries('currentApplicant');
+            setCurrentApplicant(data.data)
         },
     });
 

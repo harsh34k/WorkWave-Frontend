@@ -55,7 +55,7 @@ export const deleteJobAPI = async (jobId: string): Promise<void> => {
 };
 
 // Filter jobs
-export const filterJobAPI = async (filters: JobFilters): Promise<filterJob> => {
+export const filterJobAPI = async (filters: JobFilters): Promise<AxiosResponse> => {
     const response = await axios.get(`${API_BASE_URL}/jobs/filter`, {
         params: filters,
     });

@@ -11,6 +11,9 @@ import { StickyNavbar } from './components/ui/Navbar'
 import ProfilePage from './components/Profile'
 import { SearchBox } from './components/innerComponents/Search'
 import JobSearchPage from './components/SearchPage'
+import ProtectedRoute from './components/utils/ProtecectedRoute'
+import ProtectedRouteApplicant from './components/utils/ProtectedRouteApplicant'
+import { Applications } from './components/Application'
 
 function App() {
 
@@ -24,9 +27,14 @@ function App() {
           <Route path='/register' element={<RegistrationFormApplicant />} />
           <Route path='/login-employer' element={<LoginForm />} />
           <Route path='/login' element={<LoginFormApplicant />} />
-          <Route path='/jobs' element={<JobBoard />} />
+          <Route path='/jobs' element={<ProtectedRoute redirectPath="/login">
+            <JobBoard />
+          </ProtectedRoute>} />
+          <Route path='/applications' element={<ProtectedRouteApplicant redirectPath="/login">
+            <Applications />
+          </ProtectedRouteApplicant>} />
           <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/search' element={<JobSearchPage />} />
+          <Route path='/search/filter' element={<JobSearchPage />} />
           {/* <Route/>
       <Route/> */}
         </Routes>

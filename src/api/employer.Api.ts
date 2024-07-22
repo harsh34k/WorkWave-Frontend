@@ -1,6 +1,6 @@
 // src/api/employer.ts
 
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { ApiResponse, Employer, Job } from '../types/index.types';
 
 const API_BASE_URL = 'http://localhost:8000/api/v1/employers'; // Replace with your backend base URL
@@ -65,11 +65,13 @@ export const refreshAccessTokenAPI = async (): Promise<{ accessToken: string; re
 
 // Change Current Password
 export const changeCurrentPasswordAPI = async (oldPassword: string, newPassword: string): Promise<void> => {
-    await axios.put(`${API_BASE_URL}/change-password`, { oldPassword, newPassword });
+    await axios.put(`${API_BASE_URL}/change-password`, { oldPassword, newPassword }, {
+        withCredentials: true
+    });
 };
 
 // Get Current Employer
-export const getCurrentEmployerAPI = async (): Promise<Employer> => {
+export const getCurrentEmployerAPI = async (): Promise<ApiResponse> => {
     try {
         console.log("at least here");
 
@@ -86,14 +88,19 @@ export const getCurrentEmployerAPI = async (): Promise<Employer> => {
 };
 
 // Update Account Details
-export const updateEmployerAccountDetailsAPI = async (data: Partial<Employer>): Promise<Employer> => {
-    const response = await axios.patch(`${API_BASE_URL}/update-account`, data);
+export const updateEmployerAccountDetailsAPI = async (data: Partial<Employer>): Promise<ApiResponse> => {
+    const response = await axios.patch(`${API_BASE_URL}/update-account`, data, {
+        withCredentials: true
+    });
+    console.log("respose lete see", response.data);
+
     return response.data;
 };
 
 // Update Employer Avatar
 export const updateEmployerAvatarAPI = async (formData: FormData): Promise<Employer> => {
     const response = await axios.patch(`${API_BASE_URL}/avatar`, formData, {
+        withCredentials: true,
         headers: {
             'Content-Type': 'multipart/form-data',
         },

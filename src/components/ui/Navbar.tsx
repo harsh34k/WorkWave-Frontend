@@ -555,6 +555,23 @@ export const StickyNavbar = React.memo(() => {
             action: handleSignOut
         },
     ];
+    const applicantMenuItems = [
+        {
+            label: "My Profile",
+            icon: UserCircleIcon,
+            action: () => navigate("/profile")
+        }, {
+            label: "Applications",
+            icon: Cog6ToothIcon,
+            action: () => navigate("/applications")
+        },
+        {
+            label: "Sign Out",
+            icon: PowerIcon,
+            action: handleSignOut
+        },
+    ];
+
 
     const desktopNavList = (
         <ul className="mt-2 mb-4 flex flex-col gap-3 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-3">
@@ -675,7 +692,7 @@ export const StickyNavbar = React.memo(() => {
                     />
                 </MenuHandler>
                 <MenuList>
-                    {profileMenuItems.map(({ label, icon: Icon, action }, index) => (
+                    {(userType === 'employer' ? profileMenuItems : applicantMenuItems).map(({ label, icon: Icon, action }, index) => (
                         <MenuItem key={index} onClick={action} className="flex items-center gap-2">
                             <Icon className="h-5 w-5 text-gray-500" />
                             <Typography as="span" variant="small" color="gray" className="font-normal">

@@ -13,13 +13,16 @@ import {
     getAllCreatedJobsAPI
 } from '../api/employer.Api';
 import { useEmployerStore } from '../stores/useEmployerStore';
-import { Employer, Job } from '../types/index.types';
+import { useJobStore } from '../stores/useJobStore';
+import { ApiResponse, Employer, Job } from '../types/index.types';
 
 export const useEmployerActions = () => {
     const queryClient = useQueryClient();
     const { setCurrentEmployer, setAccessToken } = useEmployerStore();
+    const { setJobList } = useJobStore();
 
     const registerEmployer = useMutation((formData: FormData) => registerEmployerAPI(formData), {
+
         onSuccess: () => {
             queryClient.invalidateQueries('currentEmployer');
         },
@@ -53,18 +56,21 @@ export const useEmployerActions = () => {
 
     const changeCurrentPassword = useMutation((data: { oldPassword: string; newPassword: string }) => changeCurrentPasswordAPI(data.oldPassword, data.newPassword));
 
-    const getCurrentEmployer = useQuery<Employer>('currentEmployer', getCurrentEmployerAPI, {
+    const getCurrentEmployer = useQuery<ApiResponse>('currentEmployer', getCurrentEmployerAPI, {
         enabled: false,
 
         onSuccess: (data) => {
-            console.log("bhai yha to aa rha hu");
-
-            setCurrentEmployer(data)
+            console.log("bhai yha to aa rha hu", data);
+            setJobList(data.data.createdJobs)
+            setCurrentEmployer(data.data)
         }
     });
 
     const updateEmployerAccountDetails = useMutation(updateEmployerAccountDetailsAPI, {
-        onSuccess: () => {
+        onSuccess: (data) => {
+            console.log("data,", data);
+
+            setCurrentEmployer(data.data)
             queryClient.invalidateQueries('currentEmployer');
         },
     });

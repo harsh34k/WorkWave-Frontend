@@ -192,7 +192,7 @@ const JobCategories: React.FC = () => {
             </div>
             <div
                 className="flex-1 bg-white p-6 rounded-md shadow-lg w-full"
-                style={{ minHeight: '15rem' }}
+            // style={{ minHeight: '15rem' }}
             >
                 {jobCategories.map((category, index) => (
                     <div key={index} className="p-4 border-b last:border-b-0">

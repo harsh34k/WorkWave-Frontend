@@ -32,18 +32,31 @@ export const SearchBox: React.FC = () => {
     }));
   };
 
+  // const handleSearch = async () => {
+  //   try {
+  //     console.log("filter hai bhai", filters);
+
+  //     const data = await filterJobs.mutateAsync(filters as JobFilters); // Cast filters to JobFilters
+  //     console.log('Filtered jobs:', data);
+  //     navigate('/search');
+  //     // Navigate or update the state with the filtered jobs if needed
+  //   } catch (error) {
+  //     console.error('Error filtering jobs:', error);
+  //   }
+  // };
   const handleSearch = async () => {
     try {
       console.log("filter hai bhai", filters);
 
-      const data = await filterJobs.mutateAsync(filters as JobFilters); // Cast filters to JobFilters
-      console.log('Filtered jobs:', data);
-      navigate('/login');
-      // Navigate or update the state with the filtered jobs if needed
+      const queryString = new URLSearchParams(filters as any).toString();
+      console.log("queryString", queryString);
+
+      navigate(`/search/filter?${queryString}`);
     } catch (error) {
       console.error('Error filtering jobs:', error);
     }
   };
+
 
   return (
     <div className="w-full max-w-5xl mx-auto p-2 pt-5 bg-transparent rounded-lg">

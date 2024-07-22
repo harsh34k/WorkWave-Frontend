@@ -57,7 +57,9 @@ export const refreshAccessTokenAPI = async (): Promise<{ accessToken: string; re
 // Function to change current password for an applicant
 export const changeCurrentPasswordAPI = async (oldPassword: string, newPassword: string): Promise<void> => {
 
-    await axios.post(`${API_BASE_URL}/applicants/change-password`, { oldPassword, newPassword });
+    await axios.post(`${API_BASE_URL}/applicants/change-password`, { oldPassword, newPassword }, {
+        withCredentials: true
+    });
 
 };
 
@@ -79,26 +81,26 @@ export const getCurrentApplicantAPI = async (): Promise<Applicant> => {
 };
 
 // Function to update account details for an applicant
-export const updateApplicantAccountDetailsAPI = async (fullName: string, email: string): Promise<Applicant> => {
+export const updateApplicantAccountDetailsAPI = async (fullName: string, email: string): Promise<ApiResponse> => {
 
-    const response = await axios.patch(`${API_BASE_URL}/applicants/update-account`, { fullName, email });
-    return response.data.data;
+    const response = await axios.patch(`${API_BASE_URL}/applicants/update-account`, { fullName, email }, {
+        withCredentials: true
+    });
+    return response.data;
 
 };
 
 // Function to update avatar for an applicant
-export const updateApplicantAvatarAPI = async (avatar: File): Promise<Applicant> => {
+export const updateApplicantAvatarAPI = async (formData: FormData): Promise<ApiResponse> => {
 
-
-    const formData = new FormData();
-    formData.append('avatarUrl', avatar);
 
     const response = await axios.patch(`${API_BASE_URL}/applicants/avatar`, formData, {
+        withCredentials: true,
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
-    return response.data.data;
+    return response.data;
 
 
 };
@@ -107,8 +109,10 @@ export const updateApplicantAvatarAPI = async (avatar: File): Promise<Applicant>
 export const getAllAppliedJobsAPI = async (): Promise<Job[]> => {
 
 
-    const response = await axios.get(`${API_BASE_URL}/applicants/c/applied-jobs`);
-    return response.data.data;
+    const response = await axios.get(`${API_BASE_URL}/applicants/c/applied-jobs`, {
+        withCredentials: true
+    });
+    return response.data;
 
 
 };
