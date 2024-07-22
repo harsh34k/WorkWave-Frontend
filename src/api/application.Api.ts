@@ -53,7 +53,7 @@ export const getAllApplicationOfJobById = async (applicationId: string): Promise
 
 // Delete application
 export const deleteApplicationAPI = async (applicationId: string): Promise<void> => {
-    await axios.delete(`${API_BASE_URL}/${applicationId}`, {
+    await axios.delete(`${API_BASE_URL}/withdraw/${applicationId}`, {
         withCredentials: true
     });
 };
