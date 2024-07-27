@@ -25,6 +25,8 @@ import { useQuery, QueryFunctionContext } from 'react-query';
 import { useJobActions } from '../hooks/useJobAction';
 import { useJobStore } from '../stores/useJobStore';
 import { getAllApplicationOfJobById } from '../api/application.Api';
+import { educationMapping, experienceMapping, formatValue, salaryMapping } from './utils/mapping';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 
 
@@ -57,7 +59,7 @@ const JobBoard = () => {
     const [viewApplicationsOpen, setViewApplicationsOpen] = useState(false);
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
-    const { data: applicationData, refetch: fetchApplications } = useQuery(
+    const { data: applicationData, refetch: fetchApplications, isLoading } = useQuery(
         ["applications", selectedJobId],
         async ({ queryKey }: QueryFunctionContext): Promise<Application[]> => {
             const appId = queryKey[1] as string;
@@ -107,7 +109,7 @@ const JobBoard = () => {
             formData.append(key, value);
         });
 
-        await publishJob.mutateAsync(formData, {
+        const response = await publishJob.mutateAsync(formData, {
             onSuccess: (data) => {
                 console.log('Job created successfully!', data.data.data);
                 addJob(data.data.data);
@@ -119,13 +121,14 @@ const JobBoard = () => {
                     workMode: '',
                     experience: '',
                     salary: '',
-                    education: ''
+                    education: '',
                 });
             },
             onError: (error) => {
-                console.log("error hai bhai", error);
+                console.log('error hai bhai', error);
             },
         });
+        return response
     };
 
     const handleEditJob = (job: Job) => {
@@ -151,7 +154,7 @@ const JobBoard = () => {
             formData.append(key, value);
         });
 
-        await updateJobMutation.mutateAsync({ jobId: selectedJob.id, formData }, {
+        const response = await updateJobMutation.mutateAsync({ jobId: selectedJob.id, formData }, {
             onSuccess: (data: any) => {
                 console.log('Job updated successfully!', data.data.data);
                 updateJob(data.data.data); // Update the job in the store
@@ -161,6 +164,7 @@ const JobBoard = () => {
                 console.log("error hai bhai", error);
             },
         });
+        return response
     };
 
     const handleDeleteJob = async (jobId: string) => {
@@ -202,7 +206,7 @@ const JobBoard = () => {
                     <Typography variant="h4" className="font-bold rounded-lg p-2">
                         Jobs
                     </Typography>
-                    <Button className="p-2 rounded-full" variant="text" onClick={() => setOpen(true)}>
+                    <Button className="p-2 rounded-full" variant="text" onClick={() => setOpen(true)} disabled={publishJob.isLoading}>
                         <PlusCircleIcon className="h-10 w-10 text-blue-500" />
                     </Button>
                 </div>
@@ -227,20 +231,13 @@ const JobBoard = () => {
                                             <PencilIcon className="h-5 w-5  mr-2" />
                                             Edit
                                         </MenuItem>
-                                        <MenuItem className='flex' onClick={() => handleDeleteJob(job.id)}>
+                                        <MenuItem className='flex' onClick={() => handleDeleteJob(job.id)} disabled={deleteJobMutation.isLoading}>
                                             <TrashIcon className="h-5 w-5 mr-2" />
                                             Delete
                                         </MenuItem>
                                     </MenuList>
                                 </Menu>
                             </div>
-                            {/* <Typography variant="h6" className="font-bold mb-2">
-                                {job.title}
-                            </Typography> */}
-                            {/* <Typography className="mb-4 text-gray-700">
-                                {job.description.substring(0, 100)}... 
-                                {/* here tring *
-                            </Typography> */}
                             <Typography variant="h5" className="font-bold">{job.title}</Typography>
 
                             <Typography variant="small" className="font-semibold">Description</Typography>
@@ -257,19 +254,20 @@ const JobBoard = () => {
 
                             <Typography variant="small" className="font-semibold">Experience</Typography>
 
-                            <Typography>{job.experience}</Typography>
+                            <Typography>{formatValue(job.experience, experienceMapping)}</Typography>
 
                             <Typography variant="small" className="font-semibold">Salary</Typography>
 
-                            <Typography>{job.salary}</Typography>
+                            <Typography>{formatValue(job.salary, salaryMapping)}</Typography>
 
                             <Typography variant="small" className="font-semibold">Education</Typography>
-                            <Typography>{job.education}</Typography>
+                            <Typography>{formatValue(job.education, educationMapping)}</Typography>
 
-                            <Button size="sm" className="mr-2 mb-2" onClick={() => handleViewJob(job)}>
+                            <Button size="sm" color='blue' className="mr-2 mb-2" onClick={() => handleViewJob(job)}>
                                 View
                             </Button>
-                            <Button size="sm" onClick={() => handleShowApplications(job)}>
+
+                            <Button size="sm" color='blue' onClick={() => handleShowApplications(job)}>
                                 View Applications
                             </Button>
                         </Card>
@@ -279,6 +277,7 @@ const JobBoard = () => {
                 {/* Create Job Dialog */}
                 <Dialog open={open} handler={() => setOpen(false)}>
                     <DialogHeader className="flex justify-between items-center">
+                        {publishJob.isLoading && <BiLoaderCircle className="animate-spin" />}
                         <Typography variant="h5">Create Job</Typography>
                         <Button variant="text" size="sm" className="p-1" onClick={() => setOpen(false)}>
                             <XMarkIcon className="h-6 w-6 text-gray-500" />
@@ -295,11 +294,47 @@ const JobBoard = () => {
                                 <Option value="HYBRID">Hybrid</Option>
                                 {/* come here */}
                             </Select>
-                            <Input crossOrigin={""} name="experience" value={formValues.experience} onChange={handleInputChange} label="Experience" className="mb-4" required />
-                            <Input crossOrigin={""} name="salary" value={formValues.salary} onChange={handleInputChange} label="Salary" className="mb-4" required />
-                            <Input crossOrigin={""} name="education" value={formValues.education} onChange={handleInputChange} label="Education" className="mb-4" required />
+                            <Select
+                                name="experience"
+                                label="Experience Level"
+                                onChange={(value) => handleSelectChange('experience', value as string)}
+                                value={formValues.experience}
+                            >
+                                <Option value="FRESHER">FRESHER</Option>
+                                <Option value="ONE_TO_TWO_YEARS">1-2 Years</Option>
+                                <Option value="TWO_TO_THREE_YEARS">2-3 Years</Option>
+                                <Option value="THREE_TO_FOUR_YEARS">3-4 Years</Option>
+                                <Option value="FOUR_TO_FIVE_YEARS">4-5 Years</Option>
+                                <Option value="ABOVE_FIVE_YEARS"> 5+ Years</Option> Senior
+                            </Select>
+                            <Select
+                                variant="standard"
+                                name="salary"
+                                label="Salary"
+                                onChange={(value) => handleSelectChange('salary', value as string)}
+                                value={formValues.salary}
+                            >
+                                <Option value="BELOW_3_LAKHS">Less than 3 Lakhs</Option>
+                                <Option value="FROM_3_TO_6_LAKHS">3-6 Lakhs</Option>
+                                <Option value="FROM_6_TO_10_LAKHS">6-10 Lakhs</Option>
+                                <Option value="FROM_10_TO_15_LAKHS">10-15 Lakhs</Option>
+                                <Option value="ABOVE_15_LAKHS">15 Lakhs+</Option>
+                            </Select>
+                            <Select
+                                variant="standard"
+                                name="education"
+                                label="Education Level"
+                                onChange={(value) => handleSelectChange('education', value as string)}
+                                value={formValues.education}
+                            >
+                                <Option value="TENTH">Tenth</Option>
+                                <Option value="TWELFTH">Twelfth</Option>
+                                <Option value="GRADUATION">Graduation</Option>
+                                <Option value="POSTGRADUATION">PostGraduation</Option>
+                                <Option value="PHD">PhD</Option>
+                            </Select>
                             <DialogFooter>
-                                <Button type="submit" color="blue">
+                                <Button type="submit" color="blue" disabled={publishJob.isLoading}>
                                     Create
                                 </Button>
                                 <Button variant="text" color="red" onClick={() => setOpen(false)}>
@@ -311,7 +346,7 @@ const JobBoard = () => {
                 </Dialog>
 
                 {/* Edit Job Dialog */}
-                <Dialog open={editOpen} handler={() => setEditOpen(false)}>
+                {/* <Dialog open={editOpen} handler={() => setEditOpen(false)}>
                     <DialogHeader className="flex justify-between items-center">
                         <Typography variant="h5">Edit Job</Typography>
                         <Button variant="text" size="sm" className="p-1" onClick={() => setEditOpen(false)}>
@@ -328,9 +363,105 @@ const JobBoard = () => {
                                 <Option value="REMOTE">Remote</Option>
                                 <Option value="HYBRID">Hybrid</Option>
                             </Select>
-                            <Input crossOrigin={""} name="experience" value={formValues.experience} onChange={handleInputChange} label="Experience" className="mb-4" required />
-                            <Input crossOrigin={""} name="salary" value={formValues.salary} onChange={handleInputChange} label="Salary" className="mb-4" required />
-                            <Input crossOrigin={""} name="education" value={formValues.education} onChange={handleInputChange} label="Education" className="mb-4" required />
+                            <Input crossOrigin={""} name="experience" value={formatValue(formValues.experience, experienceMapping)} onChange={handleInputChange} label="Experience" className="mb-4" required />
+                            <Input crossOrigin={""} name="salary" value={formatValue(formValues.salary, salaryMapping)} onChange={handleInputChange} label="Salary" className="mb-4" required />
+                            <Input crossOrigin={""} name="education" value={formatValue(formValues.education, educationMapping)} onChange={handleInputChange} label="Education" className="mb-4" required />
+                            <DialogFooter>
+                                <Button type="submit" color="blue">
+                                    Update
+                                </Button>
+                                <Button variant="text" color="red" onClick={() => setEditOpen(false)}>
+                                    Cancel
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </DialogBody>
+                </Dialog> */}
+                <Dialog open={editOpen} handler={() => setEditOpen(false)}>
+                    <DialogHeader className="flex justify-between items-center">
+                        <Typography variant="h5">Edit Job</Typography>
+                        <Button variant="text" size="sm" className="p-1" onClick={() => setEditOpen(false)}>
+                            <XMarkIcon className="h-6 w-6 text-gray-500" />
+                        </Button>
+                    </DialogHeader>
+                    <DialogBody divider>
+                        <form onSubmit={handleUpdateJob}>
+                            <Input
+                                crossOrigin={""}
+                                name="title"
+                                value={formValues.title}
+                                onChange={handleInputChange}
+                                label="Job Title"
+                                className="mb-4"
+                                required
+                            />
+                            <Textarea
+                                name="description"
+                                value={formValues.description}
+                                onChange={handleInputChange}
+                                label="Job Description"
+                                className="mb-4"
+                                required
+                            />
+                            <Input
+                                crossOrigin={""}
+                                name="location"
+                                value={formValues.location}
+                                onChange={handleInputChange}
+                                label="Location"
+                                className="mb-4"
+                                required
+                            />
+                            <Select
+                                name="workMode"
+                                value={formValues.workMode}
+                                onChange={(value) => handleSelectChange("workMode", value as string)}
+                                label="Work Mode"
+                                className="mb-4"
+                            >
+                                <Option value="ONSITE">Onsite</Option>
+                                <Option value="REMOTE">Remote</Option>
+                                <Option value="HYBRID">Hybrid</Option>
+                            </Select>
+                            <Select
+                                name="experience"
+                                label="Experience Level"
+                                onChange={(value) => handleSelectChange('experience', value as string)}
+                                value={formValues.experience}
+                            >
+                                <Option value="FRESHER">FRESHER</Option>
+                                <Option value="ONE_TO_TWO_YEARS">1-2 Years</Option>
+                                <Option value="TWO_TO_THREE_YEARS">2-3 Years</Option>
+                                <Option value="THREE_TO_FOUR_YEARS">3-4 Years</Option>
+                                <Option value="FOUR_TO_FIVE_YEARS">4-5 Years</Option>
+                                <Option value="ABOVE_FIVE_YEARS"> 5+ Years</Option> Senior
+                            </Select>
+                            <Select
+                                variant="standard"
+                                name="salary"
+                                label="Salary"
+                                onChange={(value) => handleSelectChange('salary', value as string)}
+                                value={formValues.salary}
+                            >
+                                <Option value="BELOW_3_LAKHS">Less than 3 Lakhs</Option>
+                                <Option value="FROM_3_TO_6_LAKHS">3-6 Lakhs</Option>
+                                <Option value="FROM_6_TO_10_LAKHS">6-10 Lakhs</Option>
+                                <Option value="FROM_10_TO_15_LAKHS">10-15 Lakhs</Option>
+                                <Option value="ABOVE_15_LAKHS">15 Lakhs+</Option>
+                            </Select>
+                            <Select
+                                variant="standard"
+                                name="education"
+                                label="Education Level"
+                                onChange={(value) => handleSelectChange('education', value as string)}
+                                value={formValues.education}
+                            >
+                                <Option value="TENTH">Tenth</Option>
+                                <Option value="TWELFTH">Twelfth</Option>
+                                <Option value="GRADUATION">Graduation</Option>
+                                <Option value="POSTGRADUATION">PostGraduation</Option>
+                                <Option value="PHD">PhD</Option>
+                            </Select>
                             <DialogFooter>
                                 <Button type="submit" color="blue">
                                     Update
@@ -342,6 +473,7 @@ const JobBoard = () => {
                         </form>
                     </DialogBody>
                 </Dialog>
+
 
                 {/* View Job Dialog */}
                 <Dialog open={viewJobOpen} handler={() => setViewJobOpen(false)}>
@@ -367,13 +499,13 @@ const JobBoard = () => {
                                     <span className="font-bold">Work Mode:</span> {selectedJob.workMode}
                                 </Typography>
                                 <Typography className="mb-2">
-                                    <span className="font-bold">Experience:</span> {selectedJob.experience}
+                                    <span className="font-bold">Experience:</span> {formatValue(selectedJob.experience, experienceMapping)}
                                 </Typography>
                                 <Typography className="mb-2">
-                                    <span className="font-bold">Salary:</span> {selectedJob.salary}
+                                    <span className="font-bold">Salary:</span> {formatValue(selectedJob.salary, salaryMapping)}
                                 </Typography>
                                 <Typography className="mb-2">
-                                    <span className="font-bold">Education:</span> {selectedJob.education}
+                                    <span className="font-bold">Education:</span> {formatValue(selectedJob.education, educationMapping)}
                                 </Typography>
                             </div>
                         )}
@@ -381,7 +513,7 @@ const JobBoard = () => {
                 </Dialog>
 
                 {/* View Applications Dialog */}
-                <Dialog open={viewApplicationsOpen} handler={() => setViewApplicationsOpen(false)} >
+                <Dialog open={viewApplicationsOpen} handler={() => setViewApplicationsOpen(false)} className='shadow-md' >
                     <DialogHeader className="flex justify-between items-center">
                         <Typography variant="h5">Job Applications</Typography>
                         <Button variant="text" size="sm" className="p-1" onClick={() => setViewApplicationsOpen(false)}>
@@ -395,18 +527,23 @@ const JobBoard = () => {
                                     <Typography variant="h6" className="font-bold mb-2">
                                         {application.applicant.fullName}
                                     </Typography>
+                                    <Typography variant="h6" className="font-bold mb-2">
+                                        {application.coverLetter}
+                                    </Typography>
                                     <Typography className="mb-2">
                                         <span className="font-bold">Email:</span> {application.applicant.email}
                                     </Typography>
                                     <Button size="sm" onClick={() => handleDownloadResume(application.resumeUrl)}>
                                         Download Resume
                                     </Button>
+                                    <hr className='mt-4' />
                                 </div>
+
                             ))
-                        ) : (
-                            <Typography>Loading...</Typography>
-                        )}
+                        ) : (isLoading && <BiLoaderCircle className="animate-spin" />)}
+                        {applicationData?.length === 0 && <div>No Application found</div>}
                     </DialogBody>
+
                 </Dialog>
             </div>
         </div>

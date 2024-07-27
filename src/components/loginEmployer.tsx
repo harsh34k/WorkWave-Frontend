@@ -5,6 +5,7 @@ import { useEmployerActions } from '../hooks/useEmployerActions';
 import { useEmployerStore } from '../stores/useEmployerStore';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 
 
@@ -99,8 +100,9 @@ const LoginForm: React.FC = () => {
                                     onChange={handleInputChange}
                                     required
                                 />
-                                <Button type="submit" color="blue" fullWidth>
-                                    Log in now
+                                <Button type="submit" color="blue" className='flex justify-center items-center' fullWidth disabled={loginEmployer.isLoading}>
+                                    {loginEmployer.isLoading && <BiLoaderCircle className="animate-spin mr-2" />}
+                                    <span className="ml-2">Log in now</span>
                                 </Button>
                             </form>
                             {message && <p className="mt-4 text-center text-red-500">{message}</p>}

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApplicantActions } from '../hooks/useApplicantsAction';
 import { useApplicantStore } from '../stores/useApplicantStore';
 import axios from 'axios';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 const LoginFormApplicant: React.FC = () => {
     const navigate = useNavigate();
@@ -95,8 +96,9 @@ const LoginFormApplicant: React.FC = () => {
                                     onChange={handleInputChange}
                                     required
                                 />
-                                <Button type="submit" color="blue" fullWidth>
-                                    Log in now
+                                <Button type="submit" color="blue" className='flex justify-center items-center' fullWidth disabled={loginApplicant.isLoading}>
+                                    {loginApplicant.isLoading && <BiLoaderCircle className="animate-spin mr-2" />}
+                                    <span className="ml-2">Log in now</span>
                                 </Button>
                             </form>
                             {message && <p className="mt-4 text-center text-red-500">{message}</p>}

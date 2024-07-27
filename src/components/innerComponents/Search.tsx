@@ -47,6 +47,27 @@ export const SearchBox: React.FC = () => {
   const handleSearch = async () => {
     try {
       console.log("filter hai bhai", filters);
+      const isValidFilter = (value: any): boolean => {
+        if (value === null || value === undefined) {
+          return false;
+        }
+
+        // If the value is a string, trim and check if it is empty
+        if (typeof value === "string") {
+          return value.trim() !== "";
+        }
+
+        return true; // Default case, if none of the above conditions match
+      };
+
+      const areFiltersValid = Object.values(filters).every((value) =>
+        isValidFilter(value)
+      );
+
+      if (!areFiltersValid) {
+        alert("Please enter valid details first.");
+        return; // Exit the function to prevent navigation
+      }
 
       const queryString = new URLSearchParams(filters as any).toString();
       console.log("queryString", queryString);

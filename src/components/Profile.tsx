@@ -557,6 +557,7 @@ import { useEmployerActions } from '../hooks/useEmployerActions';
 import { useEmployerStore } from '../stores/useEmployerStore';
 import { useApplicantActions } from '../hooks/useApplicantsAction';
 import { useApplicantStore } from '../stores/useApplicantStore';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 const ProfilePage = () => {
     const { currentEmployer } = useEmployerStore();
@@ -712,8 +713,9 @@ const ProfilePage = () => {
                         <Button color="white" fullWidth variant='gradient' onClick={() => setIsPasswordModalOpen(true)}>
                             Change Password
                         </Button>
-                        <Button type="submit" color="blue" fullWidth>
-                            Save Changes
+                        <Button type="submit" color="blue" className='flex justify-center items-center' fullWidth disabled={updateEmployerAccountDetails.isLoading}>
+                            {updateEmployerAccountDetails.isLoading && <BiLoaderCircle />}
+                            <span>Save Changes</span>
                         </Button>
                     </form>
 
@@ -748,8 +750,10 @@ const ProfilePage = () => {
                     <Button variant='gradient' className='mr-4' onClick={() => setIsPasswordModalOpen(false)}>
                         Cancel
                     </Button>
-                    <Button color="blue" onClick={handleChangePassword}>
-                        Change Password
+                    <Button color="blue" className='flex justify-center items-center' onClick={handleChangePassword}>
+                        {(changeEmployerPassword.isLoading || changeApplicantPassword.isLoading) && <BiLoaderCircle className="animate-spin mr-2" />}
+                        <span className="ml-2">Change Password</span>
+
                     </Button>
                 </DialogFooter>
             </Dialog>

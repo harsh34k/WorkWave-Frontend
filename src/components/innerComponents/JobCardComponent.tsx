@@ -386,6 +386,8 @@ import { useMutation } from 'react-query';
 import { Button, Dialog, DialogHeader, DialogBody, DialogFooter, Input, Textarea } from '@material-tailwind/react';
 import { useApplicationActions } from '../../hooks/useApplicationsAction';
 import JobCard from '../innerComponents/jobComponent1'; // Ensure the correct path to JobCard component
+import { BiLoaderCircle } from 'react-icons/bi';
+import { experienceMapping, formatValue, salaryMapping } from '../utils/mapping';
 
 interface JobCardProps {
     job: {
@@ -393,6 +395,7 @@ interface JobCardProps {
         title: string;
         company: string;
         location: string;
+        education: string;
         rating: number;
         experience: string;
         salary: string;
@@ -442,6 +445,8 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job }) => {
         if (resume) {
             formData.append('resume', resume);
         }
+        console.log("job education", job.education);
+
 
         try {
             const data = await applyJob.mutateAsync(formData);
@@ -452,7 +457,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job }) => {
             setCoverLetter('');
             setResume(null);
 
-            navigate('/login');
+            navigate('/applications');
         } catch (error) {
             console.error('Error submitting application', error);
         }
@@ -461,10 +466,11 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job }) => {
     return (
         <>
             <JobCard
+                id={job.id}
                 title={job.title}
-                // company={job.company}
-                experience={job.experience}
-                salary={job.salary}
+                experience={formatValue(job.experience, experienceMapping)}
+                education={job.education}
+                salary={formatValue(job.salary, salaryMapping)}
                 location={job.location}
                 description={job.description}
                 workMode={job.workMode}
@@ -499,7 +505,8 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job }) => {
                         </div>
                     </DialogBody>
                     <DialogFooter>
-                        <Button type="submit" color="blue" variant="gradient" size="md">
+                        <Button type="submit" color="blue" variant="gradient" className='flex justify-center items-center' size="md" disabled={applyJob.isLoading}>
+                            {applyJob.isLoading && <BiLoaderCircle className="animate-spin mr-2" />}
                             <span className="text-base">Apply</span>
                         </Button>
                     </DialogFooter>

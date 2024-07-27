@@ -152,6 +152,7 @@
 import React, { useState } from 'react';
 import { Card, Typography, Button, Dialog, DialogHeader, DialogBody, DialogFooter } from '@material-tailwind/react';
 import { BriefcaseIcon } from '@heroicons/react/24/solid';
+import { experienceMapping, formatValue, salaryMapping } from '../utils/mapping';
 
 interface JobCardProps {
     title: string;
@@ -187,14 +188,14 @@ const JobCard: React.FC<JobCardProps> = ({
             <Card className="p-4 shadow-lg rounded-lg mb-6">
                 <div className="flex items-center mb-2">
                     <BriefcaseIcon className="h-6 w-6 text-gray-700 mr-2" />
-                    <Typography variant="h5" className="font-semibold">{title}</Typography>
+                    <Typography variant="h5" className="font-semibold">title:{title}</Typography>
                 </div>
                 <Typography variant="paragraph" className="text-gray-600">{company}</Typography>
                 <div className="flex items-center mt-2">
-                    <Typography variant="paragraph" className="text-gray-500">{experience}</Typography>
+                    <Typography variant="paragraph" className="text-gray-500">{formatValue(experience, experienceMapping)}</Typography>
                 </div>
                 <div className="flex items-center mt-2">
-                    <Typography variant="paragraph" className="text-gray-500">{salary}</Typography>
+                    <Typography variant="paragraph" className="text-gray-500">{formatValue(salary, salaryMapping)}</Typography>
                 </div>
                 <div className="flex items-center mt-2">
                     <Typography variant="paragraph" className="text-gray-500">{location}</Typography>
@@ -219,8 +220,8 @@ const JobCard: React.FC<JobCardProps> = ({
                 <DialogBody divider>
                     <Typography variant="h5" className="font-semibold mb-4">{title}</Typography>
                     <Typography variant="paragraph" className="text-gray-600 mb-2">{company}</Typography>
-                    <Typography variant="paragraph" className="text-gray-500 mb-2">{experience}</Typography>
-                    <Typography variant="paragraph" className="text-gray-500 mb-2">{salary}</Typography>
+                    <Typography variant="paragraph" className="text-gray-500 mb-2">{formatValue(experience, experienceMapping)}</Typography>
+                    <Typography variant="paragraph" className="text-gray-500 mb-2">{formatValue(salary, salaryMapping)}</Typography>
                     <Typography variant="paragraph" className="text-gray-500 mb-2">{location}</Typography>
                     <Typography variant="paragraph" className="text-gray-500 mb-2">{description}</Typography>
                     <Typography variant="paragraph" className="text-gray-500">{workMode}</Typography>

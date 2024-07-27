@@ -173,10 +173,13 @@ import { Education, Experience, JobFilters, Salary, WorkMode } from '../types/in
 import { Drawer, Button } from '@material-tailwind/react';
 import { filterJobAPI } from '../api/job.Api';
 import { SearchBox } from './innerComponents/Search';
+import { useJobActions } from '../hooks/useJobAction';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 const JobSearchPage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { filterJobs } = useJobActions();
     const [filters, setFilters] = useState<JobFilters>({
         title: "" || undefined,
         location: "" || undefined,
@@ -203,7 +206,7 @@ const JobSearchPage: React.FC = () => {
             setFilters(filters);
 
             try {
-                const data = await filterJobAPI(filters);
+                const data = await filterJobs.mutateAsync(filters);
                 console.log("data", data.data);
                 setJobs(data.data);
             } catch (error) {
@@ -233,7 +236,7 @@ const JobSearchPage: React.FC = () => {
         const queryString = searchParams.toString();
 
         try {
-            const data = await filterJobAPI(filters);
+            const data = await filterJobs.mutateAsync(filters); //filterJobAPI(filters)
             setJobs(data.data);
             navigate(`/search/filter?${queryString}`);
         } catch (error) {
@@ -247,25 +250,31 @@ const JobSearchPage: React.FC = () => {
             <div className="lg:hidden p-4">
                 <Button onClick={() => setDrawerOpen(true)}>Filters</Button>
                 <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-                    <FilterComponent filters={filters} onFilterChange={handleFilterChange} onApplyFilters={handleApplyFilters} />
+                    <FilterComponent filters={filters} onFilterChange={handleFilterChange} onApplyFilters={handleApplyFilters} isLoading={filterJobs.isLoading} />
                 </Drawer>
             </div>
 
             <div className="hidden lg:block w-1/4 p-4">
-                <FilterComponent filters={filters} onFilterChange={handleFilterChange} onApplyFilters={handleApplyFilters} />
+                <FilterComponent filters={filters} onFilterChange={handleFilterChange} onApplyFilters={handleApplyFilters} isLoading={filterJobs.isLoading} />
             </div>
 
             <div className="w-full lg:w-3/4 p-4">
                 <SearchBox />
                 <h1 className="text-2xl font-bold mb-4">Job Listings</h1>
                 <div className="space-y-4">
-                    {jobs.length > 0 ? (
+                    {filterJobs.isLoading ? (
+                        // Show loading spinner when data is being fetched
+                        <BiLoaderCircle size={"3rem"} className="animate-spin m-auto" />
+                    ) : jobs.length > 0 ? (
                         jobs.map((job, index) => (
                             <JobCardComponent key={index} job={job} />
                         ))
-                    ) : (
-                        <p>No jobs found matching your criteria.</p>
-                    )}
+                    ) :
+                        (
+                            // Show message if no jobs are found and loading is complete
+                            <div>No Job Found</div>
+                        )
+                    }
                 </div>
             </div>
         </div>

@@ -233,14 +233,16 @@
 import React from 'react';
 import { Button, Radio, Slider } from '@material-tailwind/react';
 import { Education, JobFilters, Salary, WorkMode } from '../../types/index.types';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 interface FilterComponentProps {
     filters: JobFilters;
     onFilterChange: (filters: JobFilters) => void;
     onApplyFilters: () => void;
+    isLoading: boolean;
 }
 
-const FilterComponent: React.FC<FilterComponentProps> = ({ filters, onFilterChange, onApplyFilters }) => {
+const FilterComponent: React.FC<FilterComponentProps> = ({ filters, onFilterChange, onApplyFilters, isLoading }) => {
     const handleRadioChange = (field: keyof JobFilters, value: any) => {
         onFilterChange({
             ...filters,
@@ -286,23 +288,6 @@ const FilterComponent: React.FC<FilterComponentProps> = ({ filters, onFilterChan
                 </div>
             </div>
 
-            {/* Experience Slider */}
-            <div>
-                {/* <label className="block font-semibold">Experience</label> */}
-                {/* <Slider
-                    color="blue"
-                    value={filters.experience}
-                    min={0}
-                    max={30}
-                    step={1}
-                    onChange={(e) => onFilterChange({ ...filters, experience: Number(e.target.value) })}
-                /> */}
-                {/* <Slider color="blue" defaultValue={0} min={0} value={filters.experience}
-                    onChange={(e) => onFilterChange({ ...filters, experience: Number(e.target.value) })} />
-                <div className="text-sm text-gray-500">0 Yrs - 30 Yrs</div> */}
-            </div>
-
-            {/* Salary */}
             <div>
                 <label className="block font-semibold">Salary</label>
                 <div className="space-y-1">
@@ -404,8 +389,10 @@ const FilterComponent: React.FC<FilterComponentProps> = ({ filters, onFilterChan
                     />
                 </div>
             </div>
-            <Button onClick={onApplyFilters} color={"blue"} fullWidth className="mt-4">
-                <span className="material-icons">Apply Filters</span>
+            <Button onClick={onApplyFilters} color={"blue"} className='flex justify-center items-center mt-4' disabled={isLoading} fullWidth >
+                {isLoading && <BiLoaderCircle className="animate-spin mr-2" />}
+                <span className="ml-2">Apply Filter</span>
+
             </Button>
         </div>
 
