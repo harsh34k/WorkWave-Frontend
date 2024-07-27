@@ -27,6 +27,7 @@ import { useJobStore } from '../stores/useJobStore';
 import { getAllApplicationOfJobById } from '../api/application.Api';
 import { educationMapping, experienceMapping, formatValue, salaryMapping } from './utils/mapping';
 import { BiLoaderCircle } from 'react-icons/bi';
+import toast from 'react-hot-toast';
 
 
 
@@ -123,8 +124,11 @@ const JobBoard = () => {
                     salary: '',
                     education: '',
                 });
+                toast.success('Job created successfully!');
             },
-            onError: (error) => {
+            onError: (error: any) => {
+                setOpen(false)
+                toast.error(error?.message || "Failed to create job.");
                 console.log('error hai bhai', error);
             },
         });
@@ -159,9 +163,12 @@ const JobBoard = () => {
                 console.log('Job updated successfully!', data.data.data);
                 updateJob(data.data.data); // Update the job in the store
                 setEditOpen(false);
+                toast.success('Job updated successfully!');
             },
-            onError: (error) => {
+            onError: (error: any) => {
                 console.log("error hai bhai", error);
+                setEditOpen(false)
+                toast.error(error?.message || 'Failed to update job.');
             },
         });
         return response
@@ -172,9 +179,12 @@ const JobBoard = () => {
             onSuccess: () => {
                 console.log('Job deleted successfully!');
                 deleteJob(jobId); // Remove the job from the store
+                toast.success('Job deleted successfully!');
             },
-            onError: (error) => {
+            onError: (error: any) => {
                 console.log("error hai bhai", error);
+
+                toast.error(error?.message || 'Failed to delete job.');
             },
         });
     };
@@ -284,11 +294,11 @@ const JobBoard = () => {
                         </Button>
                     </DialogHeader>
                     <DialogBody divider>
-                        <form onSubmit={handleCreateJob}>
+                        <form onSubmit={handleCreateJob} className='flex flex-col items-stretch'>
                             <Input crossOrigin={""} name="title" value={formValues.title} onChange={handleInputChange} label="Job Title" className="mb-4" required />
                             <Textarea name="description" value={formValues.description} onChange={handleInputChange} label="Job Description" className="mb-4" required />
                             <Input crossOrigin={""} name="location" value={formValues.location} onChange={handleInputChange} label="Location" className="mb-4" required />
-                            <Select name="workMode" value={formValues.workMode} onChange={(value) => handleSelectChange("workMode", value as string)} label="Work Mode" className="mb-4" >
+                            <Select name="workMode" value={formValues.workMode} variant="standard" onChange={(value) => handleSelectChange("workMode", value as string)} label="Work Mode" className="mb-4" >
                                 <Option value="ONSITE">Onsite</Option>
                                 <Option value="REMOTE">Remote</Option>
                                 <Option value="HYBRID">Hybrid</Option>
@@ -296,6 +306,7 @@ const JobBoard = () => {
                             </Select>
                             <Select
                                 name="experience"
+                                variant="standard"
                                 label="Experience Level"
                                 onChange={(value) => handleSelectChange('experience', value as string)}
                                 value={formValues.experience}
@@ -414,6 +425,7 @@ const JobBoard = () => {
                             />
                             <Select
                                 name="workMode"
+                                variant="standard"
                                 value={formValues.workMode}
                                 onChange={(value) => handleSelectChange("workMode", value as string)}
                                 label="Work Mode"
@@ -425,6 +437,7 @@ const JobBoard = () => {
                             </Select>
                             <Select
                                 name="experience"
+                                variant="standard"
                                 label="Experience Level"
                                 onChange={(value) => handleSelectChange('experience', value as string)}
                                 value={formValues.experience}
@@ -463,8 +476,9 @@ const JobBoard = () => {
                                 <Option value="PHD">PhD</Option>
                             </Select>
                             <DialogFooter>
-                                <Button type="submit" color="blue">
-                                    Update
+                                <Button type="submit" color="blue" className='flex justify-center items-center mt-4'>
+                                    {updateJobMutation.isLoading && <BiLoaderCircle className="animate-spin mr-2" />}
+                                    <span className="ml-2">Update</span>
                                 </Button>
                                 <Button variant="text" color="red" onClick={() => setEditOpen(false)}>
                                     Cancel

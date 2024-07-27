@@ -6,6 +6,7 @@ import { useEmployerStore } from '../stores/useEmployerStore';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BiLoaderCircle } from 'react-icons/bi';
+import toast from 'react-hot-toast';
 
 
 
@@ -47,15 +48,15 @@ const LoginForm: React.FC = () => {
 
                 setAccessToken(response.data.accessToken);
                 setCurrentEmployer(response.data.user);
-                setMessage('Login successful!');
+                toast('Login successful!');
                 navigate('/'); // Redirect to dashboard or wherever needed
             } else {
                 // Handle unexpected response
                 setMessage('Login failed. Please try again.');
             }
-        } catch (error) {
+        } catch (error: any) {
             // Handle network errors, or custom error responses
-            setMessage('Login failed. Please try again.');
+            toast.error(error?.message || 'Login failed. Please try again.');
             // setMessage(error?.response?.data?.message || 'Login failed. Please try again.');
         }
     };

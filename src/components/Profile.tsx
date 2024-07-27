@@ -558,6 +558,8 @@ import { useEmployerStore } from '../stores/useEmployerStore';
 import { useApplicantActions } from '../hooks/useApplicantsAction';
 import { useApplicantStore } from '../stores/useApplicantStore';
 import { BiLoaderCircle } from 'react-icons/bi';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
 const ProfilePage = () => {
     const { currentEmployer } = useEmployerStore();
@@ -634,11 +636,13 @@ const ProfilePage = () => {
                     });
                 }
             }
-
-            setMessage('Profile updated successfully!');
-        } catch (error) {
+            toast.success('Profile changed successfully!');;
+        } catch (error: any) {
             setMessage('Error updating profile');
+            setIsPasswordModalOpen(false)
             console.error('Error updating profile', error);
+            toast.error(error?.message || 'Registration failed!');
+
         }
     };
 
@@ -668,11 +672,12 @@ const ProfilePage = () => {
                     newPassword: passwordValues.newPassword
                 });
             }
-            setMessage('Password changed successfully!');
             setIsPasswordModalOpen(false);
-        } catch (error) {
-            setMessage('Error changing password');
+            toast('Password changed successfully!');
+        } catch (error: any) {
             console.error('Error changing password', error);
+            setIsPasswordModalOpen(false)
+            toast.error(error?.message || 'Error changing password');
         }
     };
 

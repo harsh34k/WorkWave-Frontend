@@ -4,6 +4,8 @@ import { Input, Button, Typography, Card } from '@material-tailwind/react';
 import { StickyNavbar } from './ui/Navbar';
 import { useEmployerActions } from '../hooks/useEmployerActions';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 
 
@@ -53,7 +55,7 @@ const RegistrationForm: React.FC = () => {
         const response = registerEmployer.mutateAsync(formData, {
             onSuccess: (data) => {
                 console.log("data", data);
-                setMessage(data?.message ? data.message : 'Registration successful!')
+                toast.success(data?.message || 'Registration successful!');
 
                 // Reset form
                 setFormValues({
@@ -69,8 +71,7 @@ const RegistrationForm: React.FC = () => {
             onError: (error: any) => {
                 console.log("error hai bhai", error);
                 console.log("error k sath message  hai bhai", message);
-
-                setMessage(error?.response?.data?.message || 'Registration failed!');
+                toast.error(error?.message || 'Registration failed!');
             },
         });
         console.log("response", response);
@@ -150,11 +151,11 @@ const RegistrationForm: React.FC = () => {
                                     onChange={handleImageChange}
                                     accept="image/*"
                                 />
-                                <Button type="submit" color="blue" fullWidth>
-                                    Register now
+                                <Button type="submit" color="blue" className='flex justify-center items-center' disabled={registerEmployer.isLoading} fullWidth>
+                                    {registerEmployer.isLoading && <BiLoaderCircle className="animate-spin mr-2" />}
+                                    <span className="ml-2">Register now</span>
                                 </Button>
                             </form>
-                            {message && <p className="mt-4 text-center text-red-500">{message}</p>}
                         </Card>
                         <div className="w-full lg:w-1/2 flex flex-col justify-center items-center border-r border-gray-200 pr-6 ">
                             <img src="/Connected-world-bro.png" alt="Placeholder" className="w-1/2 mb-4" />

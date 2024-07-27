@@ -515,9 +515,6 @@ export const StickyNavbar = React.memo(() => {
     const handleSignOut = async () => {
         if (userType === 'employer') {
             await logoutEmployer.mutateAsync()
-            // const response = await axios.post(`http://localhost:8000/api/v1/employers/logout`,)
-            // console.log("ressponse from logout", response);
-            // setCurrentEmployer(null);
             console.log("inside navbar handleSignOut");
 
             navigate("/login")
@@ -616,7 +613,7 @@ export const StickyNavbar = React.memo(() => {
             </Link>
             <Link to="/register">
                 <Button color="blue" variant="gradient" size="md" className="hidden lg:inline-block">
-                    <span className="text-base">Sign in</span>
+                    <span className="text-base">Sign up</span>
                 </Button>
             </Link>
         </ul>
@@ -672,7 +669,7 @@ export const StickyNavbar = React.memo(() => {
                 <hr className="my-3" />
                 <Link to="/register">
                     <Button color="blue" variant="gradient" size="lg" className="">
-                        <span>Sign in</span>
+                        <span>Sign up</span>
                     </Button>
                 </Link>
                 <hr className="my-3" />

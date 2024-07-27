@@ -20,7 +20,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ThemeProvider >
         <App />
       </ThemeProvider>
-
     </QueryClientProvider>
   </React.StrictMode>,
 )

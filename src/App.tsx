@@ -14,6 +14,7 @@ import JobSearchPage from './components/SearchPage'
 import ProtectedRoute from './components/utils/ProtecectedRoute'
 import ProtectedRouteApplicant from './components/utils/ProtectedRouteApplicant'
 import { Applications } from './components/Application'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           {/* <Route/>
       <Route/> */}
         </Routes>
+        <Toaster />
       </BrowserRouter>
     </>
   )

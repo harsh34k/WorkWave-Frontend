@@ -388,6 +388,7 @@ import { useApplicationActions } from '../../hooks/useApplicationsAction';
 import JobCard from '../innerComponents/jobComponent1'; // Ensure the correct path to JobCard component
 import { BiLoaderCircle } from 'react-icons/bi';
 import { experienceMapping, formatValue, salaryMapping } from '../utils/mapping';
+import toast from 'react-hot-toast';
 
 interface JobCardProps {
     job: {
@@ -456,9 +457,12 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job }) => {
             setOpen(false);
             setCoverLetter('');
             setResume(null);
+            toast("Application submitted successfully!")
 
             navigate('/applications');
-        } catch (error) {
+        } catch (error: any) {
+            setOpen(false)
+            toast.error(error?.message || 'Error submitting application')
             console.error('Error submitting application', error);
         }
     };

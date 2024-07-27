@@ -6,6 +6,7 @@ import { useApplicantActions } from '../hooks/useApplicantsAction';
 import { useApplicantStore } from '../stores/useApplicantStore';
 import axios from 'axios';
 import { BiLoaderCircle } from 'react-icons/bi';
+import toast from 'react-hot-toast';
 
 const LoginFormApplicant: React.FC = () => {
     const navigate = useNavigate();
@@ -45,13 +46,13 @@ const LoginFormApplicant: React.FC = () => {
                 setAccessToken(response.data.accessToken);
                 setCurrentApplicant(response.data.user);
                 setMessage('Login successful!');
+                toast('Login successful!');
                 navigate('/');
             } else {
                 setMessage('Login failed. Please try again.');
             }
-        } catch (error) {
-
-            setMessage('Login failed. Please try again.');
+        } catch (error: any) {
+            toast.error(error?.message || 'Login failed. Please try again.');
 
         }
     };

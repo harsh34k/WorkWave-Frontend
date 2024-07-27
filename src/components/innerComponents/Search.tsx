@@ -7,6 +7,7 @@ import { filterJobAPI } from '../../api/job.Api'; // Adjust the import path if n
 import { useNavigate } from 'react-router-dom';
 import { Experience, JobFilters, Salary, WorkMode } from '../../types/index.types';
 import { useJobActions } from '../../hooks/useJobAction';
+import toast from 'react-hot-toast';
 
 export const SearchBox: React.FC = () => {
   const { filterJobs } = useJobActions();
@@ -65,7 +66,7 @@ export const SearchBox: React.FC = () => {
       );
 
       if (!areFiltersValid) {
-        alert("Please enter valid details first.");
+        toast.error("Please enter valid details first.");
         return; // Exit the function to prevent navigation
       }
 

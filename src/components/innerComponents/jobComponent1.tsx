@@ -255,40 +255,9 @@ const JobCard: React.FC<JobCardProps> = ({
     console.log("job education", education);
 
 
-    const handleDeleteApplication = async (applicationId: string) => {
-        await deleteJobApplication.mutateAsync(applicationId, {
-            onSuccess: () => {
-                console.log('Application deleted successfully!');
-                deleteApplication(applicationId);
-            },
-            onError: (error) => {
-                console.error('Error deleting application', error);
-            },
-        });
-    };
-
     return (
         <>
             <Card className="p-4 shadow-lg rounded-lg mb-6">
-                {/* <div className="relative">
-                    <div className="absolute top-2 right-2">
-                        <Menu>
-                            <MenuHandler>
-                                <Button variant="text" size="sm" className="p-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 110 1.5.75.75 0 010-1.5zM12 12a.75.75 0 110 1.5.75.75 0 010-1.5zM17.25 12a.75.75 0 110 1.5.75.75 0 010-1.5z" />
-                                    </svg>
-                                </Button>
-                            </MenuHandler>
-                            <MenuList>
-                                <MenuItem className="flex items-center gap-2" onClick={() => handleDeleteApplication(id)}>
-                                    {deleteJobApplication.isLoading && <BiLoaderCircle className="animate-spin mr-2" />}
-                                    <span className='flex justify-center items-center' ><TrashIcon className="h-4 w-4 mr-2" /> Delete</span>
-                                </MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </div>
-                </div> */}
                 <div className="flex items-center mb-2">
                     <BriefcaseIcon className="h-6 w-6 text-gray-700 mr-2" />
                     <Typography variant="h5" className="font-semibold">{title}</Typography>

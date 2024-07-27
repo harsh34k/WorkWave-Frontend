@@ -3,6 +3,8 @@ import { Input, Button, Typography, Card } from '@material-tailwind/react';
 import { StickyNavbar } from './ui/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { useApplicantActions } from '../hooks/useApplicantsAction';
+import { BiLoaderCircle } from 'react-icons/bi';
+import toast from 'react-hot-toast';
 
 const RegistrationFormApplicant: React.FC = () => {
     const navigate = useNavigate();
@@ -43,8 +45,7 @@ const RegistrationFormApplicant: React.FC = () => {
 
         try {
             const response = await registerApplicant.mutateAsync(formData);
-
-            setMessage(response.message || 'Registration successful!');
+            toast.success(response?.message || 'Registration successful!')
 
             // Reset form
             setFormValues({
@@ -56,7 +57,7 @@ const RegistrationFormApplicant: React.FC = () => {
 
             navigate('/login'); // Adjust the route if needed
         } catch (error: any) {
-            setMessage(error?.response?.data?.message || 'Registration failed. Please try again.');
+            toast.error(error?.message || 'Registration failed!');
         }
     };
 
@@ -109,11 +110,11 @@ const RegistrationFormApplicant: React.FC = () => {
                                     onChange={handleImageChange}
                                     accept="image/*"
                                 />
-                                <Button type="submit" color="blue" fullWidth>
-                                    Register now
+                                <Button type="submit" color="blue" className='flex justify-center items-center' disabled={registerApplicant.isLoading} fullWidth>
+                                    {registerApplicant.isLoading && <BiLoaderCircle className="animate-spin mr-2" />}
+                                    <span className="ml-2">Register now</span>
                                 </Button>
                             </form>
-                            {message && <p className="mt-4 text-center text-red-500">{message}</p>}
                         </Card>
                         <div className="w-full lg:w-1/2 flex flex-col justify-center items-center border-r border-gray-200 pr-6 ">
                             <img src="/Onboarding-employer.png" alt="Placeholder" className="w-1/2 mb-4" />
