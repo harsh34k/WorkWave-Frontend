@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ApiResponse, Employer, Job } from '../types/index.types';
 
-const API_BASE_URL = 'https://workwave-production.up.railway.app/api/v1/jobs/getAllJobs'; // Replace with your backend base URL
+const API_BASE_URL = 'https://workwave-production.up.railway.app/api/v1/employers'; // Replace with your backend base URL
 
 // Common error handling logic
 const handleApiError = (error: any): string => {

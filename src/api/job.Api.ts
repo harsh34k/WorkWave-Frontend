@@ -68,7 +68,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { ApiResponse, Job, JobFilters } from '../types/index.types';
 
-const API_BASE_URL = 'https://workwave-production.up.railway.app/api/v1/jobs/getAllJobs';
+const API_BASE_URL = 'https://workwave-production.up.railway.app/api/v1';
 
 // Common error handling logic
 const handleApiError = (error: any): string => {
