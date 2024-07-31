@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Input, Button, Typography, Card } from '@material-tailwind/react';
-import { StickyNavbar } from './ui/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { useApplicantActions } from '../hooks/useApplicantsAction';
 import { useApplicantStore } from '../stores/useApplicantStore';
-import axios from 'axios';
 import { BiLoaderCircle } from 'react-icons/bi';
 import toast from 'react-hot-toast';
 

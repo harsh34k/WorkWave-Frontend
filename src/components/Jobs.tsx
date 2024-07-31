@@ -355,39 +355,6 @@ const JobBoard = () => {
                         </form>
                     </DialogBody>
                 </Dialog>
-
-                {/* Edit Job Dialog */}
-                {/* <Dialog open={editOpen} handler={() => setEditOpen(false)}>
-                    <DialogHeader className="flex justify-between items-center">
-                        <Typography variant="h5">Edit Job</Typography>
-                        <Button variant="text" size="sm" className="p-1" onClick={() => setEditOpen(false)}>
-                            <XMarkIcon className="h-6 w-6 text-gray-500" />
-                        </Button>
-                    </DialogHeader>
-                    <DialogBody divider>
-                        <form onSubmit={handleUpdateJob}>
-                            <Input crossOrigin={""} name="title" value={formValues.title} onChange={handleInputChange} label="Job Title" className="mb-4" required />
-                            <Textarea name="description" value={formValues.description} onChange={handleInputChange} label="Job Description" className="mb-4" required />
-                            <Input crossOrigin={""} name="location" value={formValues.location} onChange={handleInputChange} label="Location" className="mb-4" required />
-                            <Select name="workMode" value={formValues.workMode} onChange={(value) => handleSelectChange("workMode", value as string)} label="Work Mode" className="mb-4" >
-                                <Option value="ONSITE">Onsite</Option>
-                                <Option value="REMOTE">Remote</Option>
-                                <Option value="HYBRID">Hybrid</Option>
-                            </Select>
-                            <Input crossOrigin={""} name="experience" value={formatValue(formValues.experience, experienceMapping)} onChange={handleInputChange} label="Experience" className="mb-4" required />
-                            <Input crossOrigin={""} name="salary" value={formatValue(formValues.salary, salaryMapping)} onChange={handleInputChange} label="Salary" className="mb-4" required />
-                            <Input crossOrigin={""} name="education" value={formatValue(formValues.education, educationMapping)} onChange={handleInputChange} label="Education" className="mb-4" required />
-                            <DialogFooter>
-                                <Button type="submit" color="blue">
-                                    Update
-                                </Button>
-                                <Button variant="text" color="red" onClick={() => setEditOpen(false)}>
-                                    Cancel
-                                </Button>
-                            </DialogFooter>
-                        </form>
-                    </DialogBody>
-                </Dialog> */}
                 <Dialog open={editOpen} handler={() => setEditOpen(false)}>
                     <DialogHeader className="flex justify-between items-center">
                         <Typography variant="h5">Edit Job</Typography>

@@ -32,19 +32,6 @@ export const SearchBox: React.FC = () => {
 
     }));
   };
-
-  // const handleSearch = async () => {
-  //   try {
-  //     console.log("filter hai bhai", filters);
-
-  //     const data = await filterJobs.mutateAsync(filters as JobFilters); // Cast filters to JobFilters
-  //     console.log('Filtered jobs:', data);
-  //     navigate('/search');
-  //     // Navigate or update the state with the filtered jobs if needed
-  //   } catch (error) {
-  //     console.error('Error filtering jobs:', error);
-  //   }
-  // };
   const handleSearch = async () => {
     try {
       console.log("filter hai bhai", filters);

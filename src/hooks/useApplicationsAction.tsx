@@ -1,14 +1,14 @@
 // src/hooks/useApplicationActions.ts
 
 import { QueryFunctionContext, useMutation, useQuery, useQueryClient } from 'react-query';
-import { AxiosError, AxiosResponse } from 'axios';
-import { Application, ApiResponse, Applicant } from '../types/index.types';
+import { AxiosError } from 'axios';
+import { Application, ApiResponse } from '../types/index.types';
 import { useApplicationStore } from '../stores/useApplicationStore';
 import { submitApplicationAPI, getAllApplicationsAPI, getApplicationByIdAPI, deleteApplicationAPI, getAllApplicationOfJobById, } from '../api/application.Api';
 
 export const useApplicationActions = () => {
     const queryClient = useQueryClient();
-    const { addApplication, updateApplication, deleteApplication, setApplicationList } = useApplicationStore();
+    const { deleteApplication, setApplicationList } = useApplicationStore();
 
     const applyJob = useMutation(
         async (formData: FormData) => {
@@ -31,28 +31,6 @@ export const useApplicationActions = () => {
         }
     );
 
-    // const updateJobApplication = useMutation(
-    //     async ({ applicationId, formData }: { applicationId: string; formData: FormData }) => {
-    //         const response = await updateApplicationAPI(applicationId, formData);
-    //         return response.data;
-    //     },
-    //     {
-    //         onSuccess: (data) => {
-    //             updateApplication(data.data);
-    //             queryClient.invalidateQueries('applications');
-    //         },
-    //         onError: (error: AxiosError) => {
-    //             console.error('Error updating application', error);
-    //         },
-    //     }
-    // );
-    // const getAllApplications = useQuery<AxiosResponse>("applications", getAllApplicationsAPI, {
-
-    //     onSuccess: (data) => {
-    //         console.log("aapplicatiin data", data);
-    //         addApplication(data.data);
-    //     },
-    // })
     const getAllApplications = useQuery(
         "applications",
         async (): Promise<ApiResponse> => {

@@ -121,7 +121,7 @@ import axios from 'axios';
 import { ApiResponse, Applicant, Job } from '../types/index.types';
 import { LoginResponse } from './employer.Api';
 
-const API_BASE_URL = 'http://localhost:8000/api/v1'; // Replace with your backend API base URL
+const API_BASE_URL = 'https://workwave-production.up.railway.app/api/v1'; // Replace with your backend API base URL
 
 // Common error handling logic
 const handleApiError = (error: any): string => {

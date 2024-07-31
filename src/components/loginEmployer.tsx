@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Input, Button, Typography, Card } from '@material-tailwind/react';
-import { StickyNavbar } from './ui/Navbar';
 import { useEmployerActions } from '../hooks/useEmployerActions';
 import { useEmployerStore } from '../stores/useEmployerStore';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { BiLoaderCircle } from 'react-icons/bi';
 import toast from 'react-hot-toast';
 
@@ -36,14 +34,8 @@ const LoginForm: React.FC = () => {
             const { email, password, fullName } = formValues;
             const response = await loginEmployer.mutateAsync({ email, password, fullName });
             console.log("response hai bhai from login", response);
-            // const response = await axios.post(`http://localhost:8000/api/v1/employers/login`, { email, password, fullName });
-            // console.log("response after changes", response);
-
-
             // Assuming successful login returns necessary data
             if (response?.data?.accessToken) {
-                // Handle success, set tokens or user context
-                //set current user to this user
                 console.log("response.data from loginEmployer", response.data);
 
                 setAccessToken(response.data.accessToken);
