@@ -14,7 +14,7 @@ import {
 } from '../api/employer.Api';
 import { useEmployerStore } from '../stores/useEmployerStore';
 import { useJobStore } from '../stores/useJobStore';
-import { ApiResponse, Employer, Job } from '../types/index.types';
+import { ApiResponse, Job } from '../types/index.types';
 
 export const useEmployerActions = () => {
     const queryClient = useQueryClient();

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PiWaves } from 'react-icons/pi';
 // import { PiWaves } from './PiWaves'; // Replace with your custom PiWaves component or icon
 

@@ -9,7 +9,7 @@ import {
     deleteJobAPI,
     filterJobAPI
 } from '../api/job.Api';
-import { Job, JobFilters } from '../types/index.types';
+import { JobFilters } from '../types/index.types';
 import { AxiosResponse } from 'axios';
 
 export const useJobActions = () => {

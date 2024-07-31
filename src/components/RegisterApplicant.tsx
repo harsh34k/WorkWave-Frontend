@@ -14,7 +14,6 @@ const RegistrationFormApplicant: React.FC = () => {
     });
 
     const [profileImage, setProfileImage] = useState<File | null>(null);
-    const [message, setMessage] = useState<string | null>(null);
 
     const { registerApplicant } = useApplicantActions();
 
@@ -31,7 +30,6 @@ const RegistrationFormApplicant: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setMessage(null);
 
         const formData = new FormData();
         Object.entries(formValues).forEach(([key, value]) => {

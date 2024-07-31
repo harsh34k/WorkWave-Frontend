@@ -7,14 +7,8 @@ import {
     DialogHeader,
     DialogBody,
     DialogFooter,
-    Menu,
-    MenuHandler,
-    MenuList,
-    MenuItem
 } from '@material-tailwind/react';
 import { BriefcaseIcon } from '@heroicons/react/24/solid';
-import { useApplicationStore } from '../../stores/useApplicationStore';
-import { useApplicationActions } from '../../hooks/useApplicationsAction';
 
 interface JobCardProps {
     id: string
@@ -30,7 +24,6 @@ interface JobCardProps {
 }
 
 const JobCard: React.FC<JobCardProps> = ({
-    id,
     title,
     experience,
     education,

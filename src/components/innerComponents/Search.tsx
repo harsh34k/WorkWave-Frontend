@@ -2,15 +2,11 @@
 import React, { useState } from 'react';
 import { Input, Select, Option, Button } from '@material-tailwind/react';
 import { FaSearch } from 'react-icons/fa';
-
-import { filterJobAPI } from '../../api/job.Api'; // Adjust the import path if needed
 import { useNavigate } from 'react-router-dom';
-import { Experience, JobFilters, Salary, WorkMode } from '../../types/index.types';
-import { useJobActions } from '../../hooks/useJobAction';
+import { Experience, JobFilters } from '../../types/index.types';
 import toast from 'react-hot-toast';
 
 export const SearchBox: React.FC = () => {
-  const { filterJobs } = useJobActions();
   const navigate = useNavigate();
   const [filters, setFilters] = useState<Partial<JobFilters>>({
     title: '',

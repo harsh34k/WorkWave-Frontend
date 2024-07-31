@@ -1,8 +1,5 @@
-import React, { useState } from 'react'
-import { PiWaves } from 'react-icons/pi'
-import WaveAnimationComponent from '../ui/WaveAnimation'
+import { useState } from 'react'
 import { SearchBox } from './Search';
-import JobCategories from './jobComponent';
 function HomePageBody() {
     const [imageLoaded, setImageLoaded] = useState(false);
 
