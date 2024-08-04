@@ -123,7 +123,7 @@ export const SearchBox: React.FC = () => {
             label="Location"
             type="text"
             name="location"
-            placeholder="Enter location"
+            placeholder="Delhi,Mumbai,Banglore..etc"
             value={filters.location?.toLowerCase() || ''}
             onChange={handleInputChange}
             className="focus:outline-none text-gray-600 bg-transparent border-none"
