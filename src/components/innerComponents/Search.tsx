@@ -124,7 +124,7 @@ export const SearchBox: React.FC = () => {
             type="text"
             name="location"
             placeholder="Enter location"
-            value={filters.location || ''}
+            value={filters.location?.toLowerCase() || ''}
             onChange={handleInputChange}
             className="focus:outline-none text-gray-600 bg-transparent border-none"
             containerProps={{

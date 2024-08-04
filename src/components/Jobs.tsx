@@ -96,7 +96,7 @@ const JobBoard = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
+        setFormValues((prevValues) => ({ ...prevValues, [name]: value.toLowerCase() }));
     };
 
     const handleSelectChange = (name: string, value: string) => {
@@ -297,7 +297,7 @@ const JobBoard = () => {
                         <form onSubmit={handleCreateJob} className='flex flex-col items-stretch'>
                             <Input crossOrigin={""} name="title" value={formValues.title} onChange={handleInputChange} label="Job Title" className="mb-4" required />
                             <Textarea name="description" value={formValues.description} onChange={handleInputChange} label="Job Description" className="mb-4" required />
-                            <Input crossOrigin={""} name="location" value={formValues.location} onChange={handleInputChange} label="Location" className="mb-4" required />
+                            <Input crossOrigin={""} name="location" value={formValues.location.toLowerCase()} onChange={handleInputChange} label="Location" className="mb-4" required />
                             <Select name="workMode" value={formValues.workMode} variant="standard" onChange={(value) => handleSelectChange("workMode", value as string)} label="Work Mode" className="mb-4" >
                                 <Option value="ONSITE">Onsite</Option>
                                 <Option value="REMOTE">Remote</Option>
